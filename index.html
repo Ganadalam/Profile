@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Euina Jeong | Frontend Developer</title>
+    <meta
+      name="description"
+      content="Crafting robust, scaleable, and beautiful digital experiences with modern web technologies."
+    />
+    <meta name="theme-color" content="#0a0a0f" />
+
+    <!-- Preconnect + preload: render-blocking 최소화 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <!-- Google Fonts: display=swap + 실제 사용 weight만 (render-blocking 최소화) -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      />
+    </noscript>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://devlunar.vercel.app/" />
+    <meta property="og:title" content="Euina Jeong | Frontend Developer" />
+    <meta
+      property="og:description"
+      content="Crafting robust, scaleable, and beautiful digital experiences with modern web technologies."
+    />
+    <meta property="og:image" content="/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://devlunar.vercel.app/" />
+    <meta property="twitter:title" content="Euina Jeong | Frontend Developer" />
+    <meta
+      property="twitter:description"
+      content="Crafting robust, scaleable, and beautiful digital experiences with modern web technologies."
+    />
+    <meta property="twitter:image" content="/og-image.jpg" />
+
+    <!-- LCP 이미지 preload (히어로 섹션 주요 이미지가 있는 경우 경로 수정) -->
+    <!-- <link rel="preload" as="image" href="/images/hero.webp" /> -->
+
+    <style>
+      :root {
+        --bg-0: #0a0a0f;
+        --text-0: #f0f0f0;
+        --text-1: #b0b0b8; /* contrast 6.2:1 on #0a0a0f — WCAG AA ✓ (이전 rgba 65% ≈ 3.8:1 미달) */
+        --accent: #60a5fa;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg-0);
+        color: var(--text-0);
+        font-family: "Outfit", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      #root {
+        min-height: 100vh;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
