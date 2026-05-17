@@ -23,29 +23,33 @@ export function useCopyToClipboard(resetMs = 2000) {
     };
   }, []);
 
-  const copy = useCallback(async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-    } catch {
-      // execCommand fallback (HTTP / iframe / 구형 브라우저)
+  const copy = useCallback(
+    async (text: string) => {
       try {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.style.cssText = "position:fixed;top:-9999px;left:-9999px;opacity:0";
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
+        await navigator.clipboard.writeText(text);
         setCopied(true);
       } catch {
-        // 완전 차단 환경 — 무음 처리
+        // execCommand fallback (HTTP / iframe / 구형 브라우저)
+        // try {
+        //   const ta = document.createElement("textarea");
+        //   ta.value = text;
+        //   ta.style.cssText =
+        //     "position:fixed;top:-9999px;left:-9999px;opacity:0";
+        //   document.body.appendChild(ta);
+        //   ta.focus();
+        //   ta.select();
+        //   // document.execCommand("copy");
+        //   // document.body.removeChild(ta);
+        //   setCopied(true);
+        // } catch {
+        //   // 완전 차단 환경 — 무음 처리
+        // }
       }
-    }
-    if (timerRef.current !== null) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setCopied(false), resetMs);
-  }, [resetMs]);
+      if (timerRef.current !== null) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => setCopied(false), resetMs);
+    },
+    [resetMs],
+  );
 
   return { copied, copy };
 }
@@ -105,14 +109,19 @@ export function useTypewriter({
   // 사용 계약: words 배열은 컴포넌트 외부 상수로 선언하는 것을 권장.
   // 런타임에 words가 바뀌는 경우 wordIndex를 0으로 리셋해야 함 (현재 미지원).
   const wordsRef = useRef(words);
-  useEffect(() => { wordsRef.current = words; }, [words]);
+  useEffect(() => {
+    wordsRef.current = words;
+  }, [words]);
   const stableWords = wordsRef.current;
 
   useEffect(() => {
     const currentWord = stableWords[wordIndex % stableWords.length];
     if (phase === "typing") {
       if (displayed.length < currentWord.length) {
-        const t = setTimeout(() => setDisplayed(currentWord.slice(0, displayed.length + 1)), typeSpeed);
+        const t = setTimeout(
+          () => setDisplayed(currentWord.slice(0, displayed.length + 1)),
+          typeSpeed,
+        );
         return () => clearTimeout(t);
       } else {
         setPhase("pause");
@@ -124,14 +133,25 @@ export function useTypewriter({
     }
     if (phase === "deleting") {
       if (displayed.length > 0) {
-        const t = setTimeout(() => setDisplayed((prev) => prev.slice(0, -1)), deleteSpeed);
+        const t = setTimeout(
+          () => setDisplayed((prev) => prev.slice(0, -1)),
+          deleteSpeed,
+        );
         return () => clearTimeout(t);
       } else {
         setWordIndex((i) => i + 1);
         setPhase("typing");
       }
     }
-  }, [displayed, phase, wordIndex, stableWords, typeSpeed, deleteSpeed, pauseDuration]);
+  }, [
+    displayed,
+    phase,
+    wordIndex,
+    stableWords,
+    typeSpeed,
+    deleteSpeed,
+    pauseDuration,
+  ]);
 
   return displayed;
 }
@@ -157,24 +177,30 @@ export function useActiveSection(sectionIds: SectionId[]) {
   const [active, setActive] = useState<SectionId>(sectionIds[0]);
 
   const idsRef = useRef(sectionIds);
-  useEffect(() => { idsRef.current = sectionIds; }, [sectionIds]);
+  useEffect(() => {
+    idsRef.current = sectionIds;
+  }, [sectionIds]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
           .filter((e) => e.isIntersecting)
-          .sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top));
+          .sort(
+            (a, b) =>
+              Math.abs(a.boundingClientRect.top) -
+              Math.abs(b.boundingClientRect.top),
+          );
         if (visible.length > 0) setActive(visible[0].target.id as SectionId);
       },
-      { threshold: 0, rootMargin: "-40% 0px -40% 0px" }
+      { threshold: 0, rootMargin: "-40% 0px -40% 0px" },
     );
     idsRef.current.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return active;
 }
@@ -193,7 +219,8 @@ export function useScrollProgress() {
       if (pending) return;
       pending = true;
       rafId = requestAnimationFrame(() => {
-        const total = document.documentElement.scrollHeight - window.innerHeight;
+        const total =
+          document.documentElement.scrollHeight - window.innerHeight;
         setProgress(total > 0 ? window.scrollY / total : 0);
         pending = false;
       });
@@ -215,7 +242,9 @@ function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "dark";
   const saved = localStorage.getItem("portfolio-theme") as Theme | null;
   if (saved === "dark" || saved === "light") return saved;
-  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  return window.matchMedia("(prefers-color-scheme: light)").matches
+    ? "light"
+    : "dark";
 }
 
 export function useTheme() {

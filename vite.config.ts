@@ -4,9 +4,8 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
+  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  esbuild: {
+    drop: process.env.NODE_ENV === "production" ? ["console", "debugger"] : [],
   },
 });
