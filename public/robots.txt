@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://devlunar.vercel.app/sitemap.xml
