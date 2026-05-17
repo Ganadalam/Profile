@@ -416,9 +416,7 @@ export function ContactSection() {
         <p>
           Designed & Built by {PROFILE.nickname} · {new Date().getFullYear()}
         </p>
-        <p style={{ marginTop: "4px", opacity: 0.55 }}>
-          React · TypeScript · Vite
-        </p>
+        <p style={{ marginTop: "4px" }}>React · TypeScript · Vite</p>
       </div>
 
       <style>{`
